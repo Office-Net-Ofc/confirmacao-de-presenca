@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Pedro Dômini - 1 Aninho</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #F4E4A1; /* amarelo suave */
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* FOLHAS */
+.folhas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.folha {
+    position: absolute;
+    width: 28px;
+    opacity: 0.6;
+    animation: cair linear infinite;
+}
+
+@keyframes cair {
+    0% {
+        transform: translateY(-60px) rotate(0deg);
+    }
+    100% {
+        transform: translateY(110vh) rotate(360deg);
+    }
+}
+
+/* IMAGEM CENTRAL */
+.container {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+}
+
+.container img {
+    max-width: 100%;
+    width: 420px;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+}
+</style>
+</head>
+
+<body>
+
+<!-- FOLHAS CAINDO -->
+<div class="folhas" id="folhas"></div>
+
+<!-- IMAGEM -->
+<div class="container">
+    <img 
+        src="https://office-net-ofc.github.io/confirmacao-de-presenca/imagens/CPedro%20D%C3%B4mini%20-%201%20aninho%20.jpg"
+        alt="Pedro Dômini - 1 Aninho">
+</div>
+
+<script>
+const folhasContainer = document.getElementById("folhas");
+const folhaImg = "https://mickaelfelipe2025.github.io/Teste-Office-Net/pagina-inicial-teste/Moldes_De_Folhas_Para_Imprimir_-_Dicas_Pr%C3%A1ticas__ABB-removebg-preview.png";
+
+for (let i = 0; i < 18; i++) {
+    let folha = document.createElement("img");
+    folha.src = folhaImg;
+    folha.className = "folha";
+    folha.style.left = Math.random() * 100 + "vw";
+    folha.style.animationDuration = (9 + Math.random() * 6) + "s";
+    folha.style.animationDelay = Math.random() * 5 + "s";
+    folhasContainer.appendChild(folha);
+}
+</script>
+
+</body>
+</html>
