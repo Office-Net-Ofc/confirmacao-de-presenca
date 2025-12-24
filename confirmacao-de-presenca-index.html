@@ -14,20 +14,8 @@ body {
   overflow-x: hidden;
 }
 
-.folhas {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.folha {
-  position: absolute;
-  width: 28px;
-  opacity: 0.6;
-  animation: cair linear infinite;
-}
-
+.folhas { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
+.folha { position: absolute; width: 28px; opacity: 0.6; animation: cair linear infinite; }
 @keyframes cair {
   from { transform: translateY(-50px) rotate(0deg); }
   to { transform: translateY(110vh) rotate(360deg); }
@@ -83,7 +71,6 @@ button {
   border-radius: 10px;
   cursor: pointer;
 }
-
 button:hover { background-color: #256428; }
 button:disabled { opacity: .6; cursor: not-allowed; }
 
@@ -101,20 +88,7 @@ button:disabled { opacity: .6; cursor: not-allowed; }
   padding: 20px;
 }
 
-.notice {
-  margin-top: 14px;
-  background: #fff8e1;
-  border: 1px solid #ffe0a3;
-  color: #5d4037;
-  padding: 12px;
-  border-radius: 12px;
-  font-size: 14px;
-  line-height: 1.35;
-  display: none;
-}
-.notice b { color: #3e2723; }
-
-/* FALLBACK WHATSAPP */
+/* FALLBACK */
 #waFallback {
   display: none;
   position: fixed;
@@ -127,32 +101,20 @@ button:disabled { opacity: .6; cursor: not-allowed; }
   max-width: 520px;
   margin: 40px auto;
   background: #fff;
-  border: 1px solid #ddd;
   border-radius: 16px;
   padding: 18px;
   box-shadow: 0 10px 30px rgba(0,0,0,.12);
-}
-#waFallback h3 {
-  margin: 0 0 10px;
-  color: #2f7d32;
-}
-#waFallback p {
-  margin: 0 0 12px;
-  color: #4e342e;
-  line-height: 1.35;
 }
 #waFallback textarea {
   width: 100%;
   padding: 12px;
   border-radius: 10px;
   border: 1px solid #cfcfcf;
-  font-size: 14px;
 }
 #waFallback .row {
   display: flex;
   gap: 10px;
   margin-top: 12px;
-  flex-wrap: wrap;
 }
 #waFallback .btn {
   flex: 1;
@@ -160,40 +122,28 @@ button:disabled { opacity: .6; cursor: not-allowed; }
   border-radius: 10px;
   border: none;
   cursor: pointer;
-  font-size: 15px;
 }
 #waFallback .btn-primary { background: #2f7d32; color: #fff; }
-#waFallback .btn-dark { background: #256428; color: #fff; text-decoration: none; display: inline-block; text-align: center; }
-#waFallback .btn-outline { margin-top: 10px; width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; background: #fff; cursor: pointer; }
+#waFallback .btn-outline { background: #fff; border: 1px solid #ccc; }
 </style>
 </head>
 
 <body>
 
-<!-- LOADING -->
 <div id="loading">
-  <h2 id="loadingTitle">⏳ Aguarde um momento</h2>
-  <p id="loadingText">Estamos registrando seus dados 💚</p>
+  <h2>⏳ Aguarde</h2>
+  <p>Registrando sua confirmação 💚</p>
 </div>
 
-<!-- FALLBACK WHATSAPP (quando o sistema não abre o app) -->
 <div id="waFallback">
   <div class="card">
     <h3>Quase lá ✅</h3>
-    <p>
-      Se o WhatsApp não abriu automaticamente, use uma das opções abaixo.
-      (Isso acontece em alguns celulares dentro do Instagram/Facebook.)
-    </p>
-
+    <p>Se o WhatsApp não abriu automaticamente, toque no botão abaixo:</p>
     <textarea id="waMsg" rows="7"></textarea>
-
     <div class="row">
-      <button id="btnShareWa" type="button" class="btn btn-primary">Compartilhar</button>
-      <button id="btnCopyWa" type="button" class="btn btn-primary">Copiar mensagem</button>
-      <a id="btnOpenWa" class="btn btn-dark" href="#" target="_blank" rel="noopener">Abrir WhatsApp</a>
+      <a id="btnOpenWa" class="btn btn-primary" href="#" target="_blank">Abrir WhatsApp</a>
+      <button id="btnCopyWa" class="btn btn-outline">Copiar mensagem</button>
     </div>
-
-    <button id="btnCloseWa" type="button" class="btn-outline">Fechar</button>
   </div>
 </div>
 
@@ -201,295 +151,109 @@ button:disabled { opacity: .6; cursor: not-allowed; }
 
 <div class="container">
 
-  <img
-    src="https://office-net-ofc.github.io/confirmacao-de-presenca/imagens/aergergerg.PNG"
-    class="header-img"
-    alt="Convite Pedro Dômini"
-  />
+<img src="https://office-net-ofc.github.io/confirmacao-de-presenca/imagens/aergergerg.PNG"
+class="header-img">
 
-  <h2>🌿 Confirmação de Presença</h2>
+<h2>🌿 Confirmação de Presença</h2>
 
-  <div id="internalBrowserNotice" class="notice">
-    ⚠️ Você parece estar abrindo pelo <b>navegador do Instagram/Facebook</b>.
-    Se o WhatsApp não abrir, toque nos <b>3 pontinhos (⋮)</b> e escolha <b>“Abrir no navegador”</b> (Chrome/Safari).
-  </div>
+<label>Qual é o seu nome?</label>
+<input type="text" id="nome">
 
-  <label>Qual é o seu nome?</label>
-  <input type="text" id="nome" placeholder="Digite seu nome completo" autocomplete="name">
+<label>Quantas pessoas contando com você irão?</label>
+<select id="quantidade">
+  <option value="">Qtd</option>
+  <option>1</option><option>2</option><option>3</option>
+  <option>4</option><option>5</option><option>6</option>
+</select>
 
-  <label>Quantas pessoas contando com você irão?</label>
-  <select id="quantidade">
-    <option value="">Qtd</option>
-    <option>1</option><option>2</option><option>3</option>
-    <option>4</option><option>5</option><option>6</option>
-    <option>7</option><option>8</option><option>9</option>
-    <option>10</option>
-  </select>
+<label>Quem irá com você?</label>
+<textarea id="pessoas"></textarea>
 
-  <label>Digite o nome das pessoas que irão com você:</label>
-  <textarea id="pessoas" rows="4" placeholder="Ex: Maria Silva, João Silva (5 anos)"></textarea>
+<label>Confirma presença?</label>
+<select id="status">
+  <option value="Confirmado">✅ Sim</option>
+  <option value="Não poderá comparecer">❌ Não</option>
+</select>
 
-  <label>Confirma presença?</label>
-  <select id="status">
-    <option value="Confirmado">✅ Sim, estaremos presentes</option>
-    <option value="Não poderá comparecer">❌ Não poderemos comparecer</option>
-  </select>
-
-  <button id="btnEnviar" type="button">Enviar confirmação 💚</button>
-
+<button id="btnEnviar">Enviar confirmação 💚</button>
 </div>
 
 <script>
-/** =========================
- * CONFIG (JÁ AJUSTADO)
- * ========================= */
 const WHATSAPP_PHONE = "559885699508";
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzJiVAymgiZuoWMaq1-U8ZD1n6m7cdF841LP8aYmB0LysRNbZfmbOPvKlnNftgiG30hfQ/exec";
 
-/** =========================
- * ELEMENTOS
- * ========================= */
-const nomeEl = document.getElementById("nome");
-const quantidadeEl = document.getElementById("quantidade");
-const pessoasEl = document.getElementById("pessoas");
-const statusEl = document.getElementById("status");
+const nome = document.getElementById("nome");
+const quantidade = document.getElementById("quantidade");
+const pessoas = document.getElementById("pessoas");
+const status = document.getElementById("status");
+const btnEnviar = document.getElementById("btnEnviar");
 
 const loading = document.getElementById("loading");
-const loadingTitle = document.getElementById("loadingTitle");
-const loadingText = document.getElementById("loadingText");
-
-const btnEnviar = document.getElementById("btnEnviar");
-const noticeEl = document.getElementById("internalBrowserNotice");
-
-// fallback
 const waFallback = document.getElementById("waFallback");
 const waMsg = document.getElementById("waMsg");
-const btnShareWa = document.getElementById("btnShareWa");
-const btnCopyWa = document.getElementById("btnCopyWa");
 const btnOpenWa = document.getElementById("btnOpenWa");
-const btnCloseWa = document.getElementById("btnCloseWa");
+const btnCopyWa = document.getElementById("btnCopyWa");
 
-/** =========================
- * FOLHAS (efeito visual)
- * ========================= */
-const folhasContainer = document.getElementById("folhas");
-const folhaImg = "https://office-net-ofc.github.io/confirmacao-de-presenca/imagens/Moldes_De_Folhas_Para_Imprimir_-_Dicas_Pr%C3%A1ticas__ABB-removebg-preview.png";
+function abrirWhatsAppComFallback(mensagem) {
+  const text = encodeURIComponent(mensagem);
+  const android = /Android/i.test(navigator.userAgent || "");
+  const waLink = `https://wa.me/${WHATSAPP_PHONE}?text=${text}`;
 
-for (let i = 0; i < 20; i++) {
-  const folha = document.createElement("img");
-  folha.src = folhaImg;
-  folha.className = "folha";
-  folha.style.left = Math.random() * 100 + "vw";
-  folha.style.animationDuration = (8 + Math.random() * 6) + "s";
-  folha.style.animationDelay = Math.random() * 5 + "s";
-  folhasContainer.appendChild(folha);
+  if (android) {
+    window.location.href =
+      `intent://send?phone=${WHATSAPP_PHONE}&text=${text}#Intent;scheme=whatsapp;package=com.whatsapp;end`;
+    setTimeout(() => {
+      window.location.href = `whatsapp://send?phone=${WHATSAPP_PHONE}&text=${text}`;
+    }, 600);
+    setTimeout(() => {
+      mostrarFallback(mensagem, waLink);
+    }, 1200);
+  } else {
+    window.location.href = waLink;
+    setTimeout(() => {
+      mostrarFallback(mensagem, waLink);
+    }, 1200);
+  }
 }
 
-/** =========================
- * UTIL
- * ========================= */
-function setLoading(isLoading, title, text) {
-  if (title) loadingTitle.innerText = title;
-  if (text) loadingText.innerText = text;
-  loading.style.display = isLoading ? "flex" : "none";
-  btnEnviar.disabled = isLoading;
-}
-
-function isInternalBrowser() {
-  const ua = navigator.userAgent || "";
-  return /Instagram|FBAN|FBAV|FB_IAB|FB4A|FBIOS|Line|Twitter|TikTok|Pinterest|Snapchat/i.test(ua);
-}
-
-function isAndroid() {
-  return /Android/i.test(navigator.userAgent || "");
-}
-
-function limparTexto(s) {
-  return (s || "").toString().replace(/\s+/g, " ").trim();
-}
-
-function montarMensagemWhatsApp({ nome, quantidade, pessoas, status }) {
-  const pessoasTxt = pessoas ? pessoas : "Não informado";
-  return `🌿 *CONFIRMAÇÃO DE PRESENÇA* 🌿
-🎉 Aniversário de 1 ano do Pedro Dômini
-
-👤 *Nome:* ${nome}
-👥 *Quantidade:* ${quantidade}
-👨‍👩‍👧 *Pessoas:* ${pessoasTxt}
-📌 *Status:* ${status}`;
-}
-
-function mostrarFallbackWhatsApp(mensagem, link) {
+function mostrarFallback(mensagem, link) {
   waMsg.value = mensagem;
   btnOpenWa.href = link;
-
-  btnCopyWa.onclick = async () => {
-    try {
-      await navigator.clipboard.writeText(mensagem);
-      btnCopyWa.innerText = "Copiado ✅";
-      setTimeout(() => btnCopyWa.innerText = "Copiar mensagem", 1500);
-    } catch {
-      // fallback antigo
-      waMsg.focus();
-      waMsg.select();
-      document.execCommand("copy");
-      btnCopyWa.innerText = "Copiado ✅";
-      setTimeout(() => btnCopyWa.innerText = "Copiar mensagem", 1500);
-    }
+  btnCopyWa.onclick = () => {
+    navigator.clipboard.writeText(mensagem);
+    btnCopyWa.innerText = "Copiado ✅";
   };
-
-  btnShareWa.onclick = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({ text: mensagem });
-        return;
-      } catch (e) {
-        // cancelou ou falhou => fica no modal
-      }
-    }
-    // se não tem share, só mantém modal e sugere copiar
-    btnShareWa.innerText = "Não disponível";
-    setTimeout(() => btnShareWa.innerText = "Compartilhar", 1500);
-  };
-
-  btnCloseWa.onclick = () => { waFallback.style.display = "none"; };
-
   waFallback.style.display = "block";
 }
 
-/**
- * ABERTURA BLINDADA:
- * 1) Tenta Web Share (Android) — evita Play Store e abre seletor de apps
- * 2) Tenta intent WhatsApp normal + Business
- * 3) Tenta deep link whatsapp://
- * 4) Mostra fallback (copiar/abrir) em vez de jogar usuário pra Play Store
- */
-async function abrirWhatsAppComFallback(mensagem) {
-  const text = encodeURIComponent(mensagem);
-  const android = isAndroid();
-
-  const universalLink = `https://wa.me/${WHATSAPP_PHONE}?text=${text}`;
-
-  // 1) Share sheet (muito forte no Android; não cai em Play Store)
-  if (android && navigator.share) {
-    try {
-      await navigator.share({ text: mensagem });
-      return;
-    } catch (e) {
-      // usuário pode cancelar; seguimos
-    }
+btnEnviar.onclick = async () => {
+  if (!nome.value || !quantidade.value) {
+    alert("Preencha nome e quantidade");
+    return;
   }
 
-  // 2) Android intents (tentamos WhatsApp normal e Business)
-  const intentWhatsApp =
-    `intent://send?phone=${WHATSAPP_PHONE}&text=${text}` +
-    `#Intent;scheme=whatsapp;package=com.whatsapp;end`;
+  loading.style.display = "flex";
 
-  const intentBusiness =
-    `intent://send?phone=${WHATSAPP_PHONE}&text=${text}` +
-    `#Intent;scheme=whatsapp;package=com.whatsapp.w4b;end`;
+  const mensagem =
+`🌿 *CONFIRMAÇÃO DE PRESENÇA* 🌿
+🎉 Aniversário de 1 ano do Pedro Dômini
 
-  const deepLink = `whatsapp://send?phone=${WHATSAPP_PHONE}&text=${text}`;
+👤 Nome: ${nome.value}
+👥 Quantidade: ${quantidade.value}
+👨‍👩‍👧 Pessoas: ${pessoas.value || "Não informado"}
+📌 Status: ${status.value}`;
 
-  if (android) {
-    window.location.href = intentWhatsApp;
-
-    setTimeout(() => {
-      window.location.href = intentBusiness;
-    }, 500);
-
-    setTimeout(() => {
-      window.location.href = deepLink;
-    }, 1000);
-
-    // Em vez de redirecionar automaticamente pro wa.me (que em alguns casos vira Play Store),
-    // mostramos um fallback garantido.
-    setTimeout(() => {
-      mostrarFallbackWhatsApp(mensagem, universalLink);
-    }, 1700);
-  } else {
-    // iOS: wa.me costuma ser ok, mas mantemos fallback
-    window.location.href = universalLink;
-
-    setTimeout(() => {
-      mostrarFallbackWhatsApp(mensagem, universalLink);
-    }, 1200);
-  }
-}
-
-async function salvarNoSheets({ nome, quantidade, pessoas, status }) {
   const formData = new FormData();
-  formData.append("nome", nome);
-  formData.append("quantidade", quantidade);
-  formData.append("pessoas", pessoas);
-  formData.append("status", status);
-  formData.append("origem", "github-pages");
+  formData.append("nome", nome.value);
+  formData.append("quantidade", quantidade.value);
+  formData.append("pessoas", pessoas.value);
+  formData.append("status", status.value);
 
-  const resp = await fetch(GOOGLE_SCRIPT_URL, {
-    method: "POST",
-    body: formData
-  });
+  await fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: formData });
 
-  const data = await resp.json().catch(() => null);
-
-  if (!data || !data.ok) {
-    const msg = (data && data.error) ? data.error : "Falha ao salvar na planilha.";
-    throw new Error(msg);
-  }
-  return true;
-}
-
-/** =========================
- * AÇÃO PRINCIPAL
- * ========================= */
-async function enviar() {
-  const nome = limparTexto(nomeEl.value);
-  const quantidade = limparTexto(quantidadeEl.value);
-  const pessoas = limparTexto(pessoasEl.value);
-  const status = limparTexto(statusEl.value);
-
-  if (!nome || nome.length < 3) {
-    alert("Digite seu nome completo 😊");
-    nomeEl.focus();
-    return;
-  }
-  if (!quantidade) {
-    alert("Selecione a quantidade de pessoas 😊");
-    quantidadeEl.focus();
-    return;
-  }
-
-  setLoading(true, "⏳ Aguarde um momento", "Estamos registrando seus dados 💚");
-
-  try {
-    // 1) salva primeiro (garante registro)
-    await salvarNoSheets({ nome, quantidade, pessoas, status });
-
-    // 2) abre WhatsApp
-    setLoading(true, "✅ Tudo certo!", "Abrindo o WhatsApp com a mensagem pronta 💚");
-    const mensagem = montarMensagemWhatsApp({ nome, quantidade, pessoas, status });
-    await abrirWhatsAppComFallback(mensagem);
-
-    // some com overlay (se share foi usado, pode não voltar; tudo bem)
-    setTimeout(() => setLoading(false), 2500);
-  } catch (err) {
-    console.error(err);
-    setLoading(true, "❌ Erro", "Não conseguimos salvar seus dados. Tente novamente.");
-    setTimeout(() => {
-      setLoading(false);
-      alert("Erro ao salvar na planilha: " + (err.message || "tente novamente."));
-    }, 1200);
-  }
-}
-
-/** =========================
- * INIT
- * ========================= */
-btnEnviar.addEventListener("click", enviar);
-
-if (isInternalBrowser()) {
-  noticeEl.style.display = "block";
-}
+  loading.style.display = "none";
+  abrirWhatsAppComFallback(mensagem);
+};
 </script>
 
 </body>
