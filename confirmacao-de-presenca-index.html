@@ -91,10 +91,30 @@ button {
 button:hover {
     background-color: #256428;
 }
+
+/* ✅ LOADING CORRIGIDO */
+#loading {
+    display: none; /* começa oculto */
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.96);
+    z-index: 9999;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
 </style>
 </head>
 
 <body>
+
+<!-- LOADING -->
+<div id="loading">
+    <h2 id="loadingTitle">⏳ Aguarde um momento</h2>
+    <p id="loadingText">Estamos registrando seus dados 💚</p>
+</div>
 
 <div class="folhas" id="folhas"></div>
 
@@ -113,21 +133,13 @@ button:hover {
 <label>Quantas pessoas contando com você irão?</label>
 <select id="quantidade">
     <option value="">Qtd</option>
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-    <option value="5">5</option>
-    <option value="6">6</option>
-    <option value="7">7</option>
-    <option value="8">8</option>
-    <option value="9">9</option>
-    <option value="10">10</option>
+    <option>1</option><option>2</option><option>3</option>
+    <option>4</option><option>5</option><option>6</option>
+    <option>7</option><option>8</option><option>9</option>
+    <option>10</option>
 </select>
 
-<label>
-Digite o nome completo das pessoas que irão com você, e se tiver criança informe a idade:
-</label>
+<label>Digite o nome das pessoas que irão com você:</label>
 <textarea id="pessoas" rows="4"
 placeholder="Ex: Maria Silva, João Silva (5 anos)"></textarea>
 
@@ -142,7 +154,16 @@ placeholder="Ex: Maria Silva, João Silva (5 anos)"></textarea>
 </div>
 
 <script>
-// Animação das folhas
+// ELEMENTOS
+const nomeEl = document.getElementById("nome");
+const quantidadeEl = document.getElementById("quantidade");
+const pessoasEl = document.getElementById("pessoas");
+const statusEl = document.getElementById("status");
+const loading = document.getElementById("loading");
+const loadingTitle = document.getElementById("loadingTitle");
+const loadingText = document.getElementById("loadingText");
+
+// FOLHAS
 const folhasContainer = document.getElementById("folhas");
 const folhaImg =
 "https://office-net-ofc.github.io/confirmacao-de-presenca/imagens/Moldes_De_Folhas_Para_Imprimir_-_Dicas_Pr%C3%A1ticas__ABB-removebg-preview.png";
@@ -157,58 +178,48 @@ for (let i = 0; i < 20; i++) {
     folhasContainer.appendChild(folha);
 }
 
-// ENVIO
-async function enviar() {
-    const nome = document.getElementById("nome").value.trim();
-    const quantidade = document.getElementById("quantidade").value;
-    const pessoas = document.getElementById("pessoas").value.trim();
-    const status = document.getElementById("status").value;
-
-    if (!nome) {
-        alert("Informe seu nome 😊");
+// FUNÇÃO ENVIAR
+function enviar() {
+    if (!nomeEl.value || !quantidadeEl.value) {
+        alert("Preencha nome e quantidade 😊");
         return;
     }
 
-    if (!quantidade) {
-        alert("Informe a quantidade de pessoas 😊");
-        return;
-    }
-
-    const scriptURL =
-    "https://script.google.com/macros/s/AKfycbzRs0QZmqUi_LBtXDqIJudUa-mktvTFO94JALnd9spFzFXpqz2D3Z0JN-hq5jnDpran/exec";
-
-    const formData = new FormData();
-    formData.append("nome", nome);
-    formData.append("quantidade", quantidade);
-    formData.append("pessoas", pessoas);
-    formData.append("status", status);
-
-    try {
-        await fetch(scriptURL, {
-            method: "POST",
-            body: formData
-        });
-    } catch (e) {
-        alert("Erro ao enviar para a planilha 😢");
-        return;
-    }
+    loading.style.display = "flex";
 
     const mensagem =
 `🌿 *CONFIRMAÇÃO DE PRESENÇA* 🌿
 🎉 Aniversário de 1 ano do Pedro Dômini
 
-👤 Nome: ${nome}
-👥 Quantidade de pessoas: ${quantidade}
-👨‍👩‍👧 Pessoas: ${pessoas || "Não informado"}
-📌 Status: ${status}`;
+👤 Nome: ${nomeEl.value}
+👥 Quantidade: ${quantidadeEl.value}
+👨‍👩‍👧 Pessoas: ${pessoasEl.value || "Não informado"}
+📌 Status: ${statusEl.value}`;
 
-    const telefone = "559889117646";
+    window.open(
+        "https://wa.me/559889117646?text=" + encodeURIComponent(mensagem),
+        "_blank"
+    );
 
-    window.location.href =
-      "https://api.whatsapp.com/send?phone=" +
-      telefone +
-      "&text=" +
-      encodeURIComponent(mensagem);
+    const formData = new FormData();
+    formData.append("nome", nomeEl.value);
+    formData.append("quantidade", quantidadeEl.value);
+    formData.append("pessoas", pessoasEl.value);
+    formData.append("status", statusEl.value);
+
+    fetch("https://script.google.com/macros/s/AKfycbzRs0QZmqUi_LBtXDqIJudUa-mktvTFO94JALnd9spFzFXpqz2D3Z0JN-hq5jnDpran/exec", {
+        method: "POST",
+        body: formData
+    })
+    .then(() => {
+        loadingTitle.innerText = "✅ Tudo certo!";
+        loadingText.innerText = "Dados registrados com sucesso 💚";
+        setTimeout(() => loading.style.display = "none", 4000);
+    })
+    .catch(() => {
+        loadingTitle.innerText = "❌ Erro";
+        loadingText.innerText = "Erro ao salvar dados. Avise o anfitrião.";
+    });
 }
 </script>
 
