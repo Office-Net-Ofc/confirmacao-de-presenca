@@ -13,13 +13,9 @@ body {
     overflow-x: hidden;
 }
 
-/* Área da animação das folhas */
 .folhas {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     pointer-events: none;
     z-index: 1;
 }
@@ -32,8 +28,8 @@ body {
 }
 
 @keyframes cair {
-    0% { transform: translateY(-50px) rotate(0deg); }
-    100% { transform: translateY(110vh) rotate(360deg); }
+    from { transform: translateY(-50px) rotate(0deg); }
+    to { transform: translateY(110vh) rotate(360deg); }
 }
 
 .container {
@@ -42,7 +38,6 @@ body {
     background: #ffffff;
     padding: 30px;
     border-radius: 18px;
-    width: 100%;
     max-width: 440px;
     margin: 40px auto;
     box-shadow: 0 15px 35px rgba(0,0,0,0.15);
@@ -59,7 +54,6 @@ body {
 h2 {
     text-align: center;
     color: #2f7d32;
-    margin-bottom: 20px;
 }
 
 label {
@@ -78,7 +72,9 @@ input, textarea, select {
     font-size: 15px;
 }
 
-textarea { resize: vertical; }
+textarea {
+    resize: vertical;
+}
 
 button {
     margin-top: 25px;
@@ -104,8 +100,8 @@ button:hover {
 
 <div class="container">
 
-<img 
-  src="https://office-net-ofc.github.io/confirmacao-de-presenca/imagens/aergergerg.PNG" 
+<img
+  src="https://office-net-ofc.github.io/confirmacao-de-presenca/imagens/aergergerg.PNG"
   class="header-img"
   alt="Convite Pedro Dômini">
 
@@ -114,22 +110,20 @@ button:hover {
 <label>Qual é o seu nome?</label>
 <input type="text" id="nome" placeholder="Digite seu nome completo">
 
-<label style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
-    <span>Quantas pessoas contando com você irão?</span>
-    <select id="quantidade" style="width: 90px;">
-        <option value="">Qtd</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-    </select>
-</label>
+<label>Quantas pessoas contando com você irão?</label>
+<select id="quantidade">
+    <option value="">Qtd</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+</select>
 
 <label>
 Digite o nome completo das pessoas que irão com você, e se tiver criança informe a idade:
@@ -148,12 +142,13 @@ placeholder="Ex: Maria Silva, João Silva (5 anos)"></textarea>
 </div>
 
 <script>
-// folhas
+// Animação das folhas
 const folhasContainer = document.getElementById("folhas");
-const folhaImg = "https://office-net-ofc.github.io/confirmacao-de-presenca/imagens/Moldes_De_Folhas_Para_Imprimir_-_Dicas_Pr%C3%A1ticas__ABB-removebg-preview.png";
+const folhaImg =
+"https://office-net-ofc.github.io/confirmacao-de-presenca/imagens/Moldes_De_Folhas_Para_Imprimir_-_Dicas_Pr%C3%A1ticas__ABB-removebg-preview.png";
 
 for (let i = 0; i < 20; i++) {
-    let folha = document.createElement("img");
+    const folha = document.createElement("img");
     folha.src = folhaImg;
     folha.className = "folha";
     folha.style.left = Math.random() * 100 + "vw";
@@ -163,47 +158,57 @@ for (let i = 0; i < 20; i++) {
 }
 
 // ENVIO
-function enviar() {
-    let nome = document.getElementById("nome").value;
-    let quantidade = document.getElementById("quantidade").value;
-    let pessoas = document.getElementById("pessoas").value;
-    let status = document.getElementById("status").value;
+async function enviar() {
+    const nome = document.getElementById("nome").value.trim();
+    const quantidade = document.getElementById("quantidade").value;
+    const pessoas = document.getElementById("pessoas").value.trim();
+    const status = document.getElementById("status").value;
 
-    if (nome === "") {
+    if (!nome) {
         alert("Informe seu nome 😊");
         return;
     }
 
-    if (quantidade === "") {
+    if (!quantidade) {
         alert("Informe a quantidade de pessoas 😊");
         return;
     }
 
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwf7Q4XEmrjBY3YmAe1yOZyHXNQY8_sCRzoRJLzXco1HLDp2VQ14bmY2zf2N5SggVie/exec";
+    const scriptURL =
+    "https://script.google.com/macros/s/AKfycbzRs0QZmqUi_LBtXDqIJudUa-mktvTFO94JALnd9spFzFXpqz2D3Z0JN-hq5jnDpran/exec";
 
-    fetch(scriptURL, {
-        method: "POST",
-        body: JSON.stringify({
-            nome: nome,
-            quantidade: quantidade,
-            pessoas: pessoas,
-            status: status
-        })
-    }).catch(() => {
-        alert("Erro ao enviar para a planilha");
-    });
+    const formData = new FormData();
+    formData.append("nome", nome);
+    formData.append("quantidade", quantidade);
+    formData.append("pessoas", pessoas);
+    formData.append("status", status);
 
-    let mensagem =
+    try {
+        await fetch(scriptURL, {
+            method: "POST",
+            body: formData
+        });
+    } catch (e) {
+        alert("Erro ao enviar para a planilha 😢");
+        return;
+    }
+
+    const mensagem =
 `🌿 *CONFIRMAÇÃO DE PRESENÇA* 🌿
 🎉 Aniversário de 1 ano do Pedro Dômini
 
 👤 Nome: ${nome}
 👥 Quantidade de pessoas: ${quantidade}
-👨‍👩‍👧 Pessoas: ${pessoas}
+👨‍👩‍👧 Pessoas: ${pessoas || "Não informado"}
 📌 Status: ${status}`;
 
-    let telefone = "559889117646";
-    window.open("https://wa.me/" + telefone + "?text=" + encodeURIComponent(mensagem), "_blank");
+    const telefone = "559889117646";
+
+    window.location.href =
+      "https://api.whatsapp.com/send?phone=" +
+      telefone +
+      "&text=" +
+      encodeURIComponent(mensagem);
 }
 </script>
 
