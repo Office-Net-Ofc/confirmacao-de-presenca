@@ -1,130 +1,161 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Confirmação de Presença - Pedro Dômini</title>
 
 <style>
-body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: #f7f2e8;
-  min-height: 100vh;
-  margin: 0;
-  overflow-x: hidden;
-}
+  :root{
+    --verde:#2f7d32;
+    --verde2:#256428;
+    --bg:#f7f2e8;
+    --texto:#4e342e;
+  }
 
-.folhas { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
-.folha { position: absolute; width: 28px; opacity: 0.6; animation: cair linear infinite; }
-@keyframes cair {
-  from { transform: translateY(-50px) rotate(0deg); }
-  to { transform: translateY(110vh) rotate(360deg); }
-}
+  body{
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+  }
 
-.container {
-  position: relative;
-  z-index: 2;
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 18px;
-  max-width: 440px;
-  margin: 40px auto;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-  border: 4px solid #2f7d32;
-}
+  /* Folhas caindo */
+  .folhas{
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
 
-.header-img {
-  width: 100%;
-  max-width: 340px;
-  display: block;
-  margin: 0 auto 20px;
-}
+  .folha{
+    position: absolute;
+    top: -80px;
+    opacity: .75;
+    will-change: transform;
+    animation-name: cair;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,.12));
+  }
 
-h2 { text-align: center; color: #2f7d32; }
+  @keyframes cair{
+    0%   { transform: translate3d(var(--x,0), -80px, 0) rotate(0deg); }
+    100% { transform: translate3d(var(--x,0), 110vh, 0) rotate(360deg); }
+  }
 
-label {
-  font-weight: 600;
-  margin-top: 18px;
-  display: block;
-  color: #4e342e;
-}
+  .container{
+    position: relative;
+    z-index: 2;
+    background: #fff;
+    padding: 30px;
+    border-radius: 18px;
+    max-width: 440px;
+    margin: 40px auto;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    border: 4px solid var(--verde);
+  }
 
-input, textarea, select {
-  width: 100%;
-  padding: 12px;
-  margin-top: 6px;
-  border-radius: 8px;
-  border: 1px solid #cfcfcf;
-  font-size: 15px;
-}
+  .header-img{
+    width: 100%;
+    max-width: 340px;
+    display: block;
+    margin: 0 auto 20px;
+  }
 
-textarea { resize: vertical; }
+  h2{ text-align:center; color: var(--verde); margin: 0 0 10px; }
 
-button {
-  margin-top: 25px;
-  width: 100%;
-  padding: 15px;
-  background-color: #2f7d32;
-  color: white;
-  font-size: 17px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-}
-button:hover { background-color: #256428; }
-button:disabled { opacity: .6; cursor: not-allowed; }
+  label{
+    font-weight: 600;
+    margin-top: 18px;
+    display: block;
+    color: var(--texto);
+  }
 
-/* LOADING */
-#loading {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(255,255,255,0.96);
-  z-index: 9999;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 20px;
-}
+  input, textarea, select{
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border-radius: 8px;
+    border: 1px solid #cfcfcf;
+    font-size: 15px;
+    box-sizing: border-box;
+  }
 
-/* FALLBACK */
-#waFallback {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(255,255,255,0.98);
-  z-index: 99999;
-  padding: 20px;
-}
-#waFallback .card {
-  max-width: 520px;
-  margin: 40px auto;
-  background: #fff;
-  border-radius: 16px;
-  padding: 18px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.12);
-}
-#waFallback textarea {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #cfcfcf;
-}
-#waFallback .row {
-  display: flex;
-  gap: 10px;
-  margin-top: 12px;
-}
-#waFallback .btn {
-  flex: 1;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-}
-#waFallback .btn-primary { background: #2f7d32; color: #fff; }
-#waFallback .btn-outline { background: #fff; border: 1px solid #ccc; }
+  textarea{ resize: vertical; min-height: 88px; }
+
+  button{
+    margin-top: 25px;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--verde);
+    color: #fff;
+    font-size: 17px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  button:hover{ background-color: var(--verde2); }
+  button:disabled{ opacity: .6; cursor: not-allowed; }
+
+  /* LOADING (corrigido: começa escondido e só aparece via JS) */
+  #loading{
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.96);
+    z-index: 9999;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+  }
+
+  /* FALLBACK */
+  #waFallback{
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.98);
+    z-index: 99999;
+    padding: 20px;
+  }
+  #waFallback .card{
+    max-width: 520px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.12);
+  }
+  #waFallback textarea{
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #cfcfcf;
+    box-sizing: border-box;
+  }
+  #waFallback .row{
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  #waFallback .btn{
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+  }
+  #waFallback .btn-primary{ background: var(--verde); color: #fff; }
+  #waFallback .btn-outline{ background: #fff; border: 1px solid #ccc; color: #222; }
 </style>
 </head>
 
@@ -138,125 +169,194 @@ button:disabled { opacity: .6; cursor: not-allowed; }
 <div id="waFallback">
   <div class="card">
     <h3>Quase lá ✅</h3>
-    <p>Se o WhatsApp não abriu automaticamente, toque no botão abaixo:</p>
-    <textarea id="waMsg" rows="7"></textarea>
+    <p>Se o WhatsApp não abriu automaticamente, use uma das opções abaixo:</p>
+    <textarea id="waMsg" rows="7" readonly></textarea>
     <div class="row">
-      <a id="btnOpenWa" class="btn btn-primary" href="#" target="_blank">Abrir WhatsApp</a>
-      <button id="btnCopyWa" class="btn btn-outline">Copiar mensagem</button>
+      <a id="btnOpenWa" class="btn btn-primary" href="#" target="_blank" rel="noopener">Abrir WhatsApp</a>
+      <button id="btnCopyWa" class="btn btn-outline" type="button">Copiar mensagem</button>
     </div>
   </div>
 </div>
 
-<div class="folhas" id="folhas"></div>
+<div class="folhas" id="folhas" aria-hidden="true"></div>
 
 <div class="container">
+  <img
+    src="https://office-net-ofc.github.io/confirmacao-de-presenca/imagens/aergergerg.PNG"
+    class="header-img"
+    alt="Convite"
+  />
 
-<img src="https://office-net-ofc.github.io/confirmacao-de-presenca/imagens/aergergerg.PNG"
-class="header-img">
+  <h2>🌿 Confirmação de Presença</h2>
 
-<h2>🌿 Confirmação de Presença</h2>
+  <label for="nome">Qual é o seu nome?</label>
+  <input type="text" id="nome" placeholder="Digite seu nome completo" autocomplete="name" />
 
-<label>Qual é o seu nome?</label>
-<input type="text" id="nome" placeholder="Digite seu nome completo">
+  <label for="quantidade">Quantas pessoas contando com você irão?</label>
+  <select id="quantidade">
+    <option value="">Qtd</option>
+    <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+    <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+  </select>
 
-<label>Quantas pessoas contando com você irão?</label>
-<select id="quantidade">
-  <option value="">Qtd</option>
-  <option>1</option><option>2</option><option>3</option>
-  <option>4</option><option>5</option><option>6</option>
-</select>
+  <label for="pessoas">Quem irá com você?
+  informe o nome completo dos seus acompanhates e idade em caso de crianças.</label>
+  <textarea id="pessoas" placeholder="Ex: Maria Silva, João Silva (5 anos)"></textarea>
 
-<label>Quem irá com você?</label>
-<textarea
-  id="pessoas"
-  placeholder="Ex: Maria Silva, João Silva (5 anos)">
-</textarea>
+  <label for="status">Confirma presença?</label>
+  <select id="status">
+    <option value="Confirmado">✅ Sim</option>
+    <option value="Não poderá comparecer">❌ Não</option>
+  </select>
 
-<label>Confirma presença?</label>
-<select id="status">
-  <option value="Confirmado">✅ Sim</option>
-  <option value="Não poderá comparecer">❌ Não</option>
-</select>
-
-<button id="btnEnviar">Enviar confirmação 💚</button>
+  <button id="btnEnviar" type="button">Enviar confirmação 💚</button>
 </div>
 
 <script>
-const WHATSAPP_PHONE = "559885699508";
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzJiVAymgiZuoWMaq1-U8ZD1n6m7cdF841LP8aYmB0LysRNbZfmbOPvKlnNftgiG30hfQ/exec";
+  // ====== CONFIG ======
+  const LEAF_IMG = "https://office-net-ofc.github.io/confirmacao-de-presenca/imagens/Moldes_De_Folhas_Para_Imprimir_-_Dicas_Pr%C3%A1ticas__ABB-removebg-preview.png";
 
-const nome = document.getElementById("nome");
-const quantidade = document.getElementById("quantidade");
-const pessoas = document.getElementById("pessoas");
-const status = document.getElementById("status");
-const btnEnviar = document.getElementById("btnEnviar");
+  // Número destino (Brasil +55) -> 98989117646
+  const WHATSAPP_PHONE = "5598989117646";
 
-const loading = document.getElementById("loading");
-const waFallback = document.getElementById("waFallback");
-const waMsg = document.getElementById("waMsg");
-const btnOpenWa = document.getElementById("btnOpenWa");
-const btnCopyWa = document.getElementById("btnCopyWa");
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzJiVAymgiZuoWMaq1-U8ZD1n6m7cdF841LP8aYmB0LysRNbZfmbOPvKlnNftgiG30hfQ/exec";
 
-function abrirWhatsAppComFallback(mensagem) {
-  const text = encodeURIComponent(mensagem);
-  const android = /Android/i.test(navigator.userAgent || "");
-  const waLink = `https://wa.me/${WHATSAPP_PHONE}?text=${text}`;
+  // ====== ELEMENTOS ======
+  const nome = document.getElementById("nome");
+  const quantidade = document.getElementById("quantidade");
+  const pessoas = document.getElementById("pessoas");
+  const status = document.getElementById("status");
+  const btnEnviar = document.getElementById("btnEnviar");
 
-  if (android) {
-    window.location.href =
-      `intent://send?phone=${WHATSAPP_PHONE}&text=${text}#Intent;scheme=whatsapp;package=com.whatsapp;end`;
-    setTimeout(() => {
-      window.location.href = `whatsapp://send?phone=${WHATSAPP_PHONE}&text=${text}`;
-    }, 600);
-    setTimeout(() => {
-      mostrarFallback(mensagem, waLink);
-    }, 1200);
-  } else {
+  const loading = document.getElementById("loading");
+  const waFallback = document.getElementById("waFallback");
+  const waMsg = document.getElementById("waMsg");
+  const btnOpenWa = document.getElementById("btnOpenWa");
+  const btnCopyWa = document.getElementById("btnCopyWa");
+
+  // ====== FOLHAS CAINDO (em volta do formulário) ======
+  function gerarLeftEmVoltaDoCentro() {
+    // Evita cair no “miolo” do formulário (aprox 30%..70% da largura)
+    let left = Math.random() * 100;
+    if (left > 30 && left < 70) {
+      // joga pra borda esquerda ou direita
+      left = (Math.random() < 0.5)
+        ? (Math.random() * 22)            // 0..22
+        : (78 + Math.random() * 22);      // 78..100
+    }
+    return left;
+  }
+
+  function criarFolhas(qtd = 34) {
+    const wrap = document.getElementById("folhas");
+    wrap.innerHTML = "";
+
+    for (let i = 0; i < qtd; i++) {
+      const img = document.createElement("img");
+      img.src = LEAF_IMG;
+      img.className = "folha";
+      img.alt = "";
+      img.decoding = "async";
+      img.loading = "eager"; // garante que apareça rápido
+
+      const size = 18 + Math.random() * 34; // 18..52
+      img.style.width = size + "px";
+
+      img.style.left = gerarLeftEmVoltaDoCentro() + "%";
+
+      const drift = (Math.random() * 140 - 70).toFixed(0) + "px";
+      img.style.setProperty("--x", drift);
+
+      const duration = 6 + Math.random() * 10; // 6..16
+      const delay = -(Math.random() * duration);
+      img.style.animationDuration = duration + "s";
+      img.style.animationDelay = delay + "s";
+
+      img.style.transform = `translateY(-80px) rotate(${Math.random() * 360}deg)`;
+      wrap.appendChild(img);
+    }
+  }
+
+  criarFolhas(34);
+  window.addEventListener("resize", () => criarFolhas(34));
+
+  // ====== WHATSAPP FALLBACK ======
+  function mostrarFallback(mensagem, link) {
+    waMsg.value = mensagem;
+    btnOpenWa.href = link;
+
+    btnCopyWa.innerText = "Copiar mensagem";
+    btnCopyWa.onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(mensagem);
+        btnCopyWa.innerText = "Copiado ✅";
+      } catch {
+        alert("Não foi possível copiar automaticamente. Selecione e copie manualmente.");
+      }
+    };
+
+    waFallback.style.display = "block";
+  }
+
+  function abrirWhatsAppComFallback(mensagem) {
+    const text = encodeURIComponent(mensagem);
+    const waLink = `https://wa.me/${WHATSAPP_PHONE}?text=${text}`;
+
     window.location.href = waLink;
+
     setTimeout(() => {
       mostrarFallback(mensagem, waLink);
     }, 1200);
   }
-}
 
-function mostrarFallback(mensagem, link) {
-  waMsg.value = mensagem;
-  btnOpenWa.href = link;
-  btnCopyWa.onclick = () => {
-    navigator.clipboard.writeText(mensagem);
-    btnCopyWa.innerText = "Copiado ✅";
-  };
-  waFallback.style.display = "block";
-}
+  // ====== ENVIO ======
+  btnEnviar.addEventListener("click", async () => {
+    const n = (nome.value || "").trim();
+    const q = (quantidade.value || "").trim();
+    const p = (pessoas.value || "").trim();
+    const s = (status.value || "").trim();
 
-btnEnviar.onclick = async () => {
-  if (!nome.value || !quantidade.value) {
-    alert("Preencha nome e quantidade");
-    return;
-  }
+    if (!n || !q) {
+      alert("Preencha nome e quantidade.");
+      return;
+    }
 
-  loading.style.display = "flex";
+    btnEnviar.disabled = true;
+    loading.style.display = "flex";
 
-  const mensagem =
+    const mensagem =
 `🌿 *CONFIRMAÇÃO DE PRESENÇA* 🌿
 🎉 Aniversário de 1 ano do Pedro Dômini
 
-👤 Nome: ${nome.value}
-👥 Quantidade: ${quantidade.value}
-👨‍👩‍👧 Pessoas: ${pessoas.value || "Não informado"}
-📌 Status: ${status.value}`;
+👤 Nome: ${n}
+👥 Quantidade: ${q}
+👨‍👩‍👧 Pessoas: ${p || "Não informado"}
+📌 Status: ${s || "Confirmado"}`;
 
-  const formData = new FormData();
-  formData.append("nome", nome.value);
-  formData.append("quantidade", quantidade.value);
-  formData.append("pessoas", pessoas.value);
-  formData.append("status", status.value);
+    try {
+      const formData = new FormData();
+      formData.append("nome", n);
+      formData.append("quantidade", q);
+      formData.append("pessoas", p);
+      formData.append("status", s);
 
-  await fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: formData });
+      const resp = await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        body: formData
+      });
 
-  loading.style.display = "none";
-  abrirWhatsAppComFallback(mensagem);
-};
+      if (!resp.ok) {
+        console.warn("Google Script respondeu com status:", resp.status);
+      }
+    } catch (err) {
+      console.warn("Falha ao enviar para Google Script:", err);
+      // não trava: ainda vai pro WhatsApp
+    } finally {
+      loading.style.display = "none";
+      btnEnviar.disabled = false;
+      abrirWhatsAppComFallback(mensagem);
+    }
+  });
 </script>
 
 </body>
